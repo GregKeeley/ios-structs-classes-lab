@@ -24,8 +24,24 @@ fred.name = "Brick"
 fred.weight = 999.2
 fred.homePlanet = "Mars"
 ```
+Answer
+```
+fred.homeplanet is a constant, and will not compile as a result
+```
 
 Fix the class definition for `Giant` in the space below so that it **does** work:
+```swift
+class Giant {
+var name = "Fred"
+var weight = "880"
+var homePlanet = "Mars"
+}
+
+var andre = Giant()
+andre.name = "Andre"
+andre.weight = "440.9"
+andre.homePlanet = "Earth"
+```
 
 
 ## Question 2
@@ -51,6 +67,10 @@ bilbo.homePlanet = "Saturn"
 
 Change the declaration of `bilbo` so that the above three lines of code **do** work:
 
+Answer - Bilbo was initialized as a constant, not allowing changes
+```swift
+var bilbo = Alien(name: "Jake", height: 1.42, homePlanet: "Saturn")
+```
 
 ## Question 3
 
@@ -65,6 +85,10 @@ jason.name = "Jason"
 
 What will the value of `edgar.name` be after those three lines of code are run? What will the value of `jason.name` be? Why?
 
+Answer
+```
+edgars name would be changed to "Jason", along with Jason. This is because jason and edgar are both Giant classes and not structs.
+```
 
 ## Question 4
 
@@ -77,6 +101,11 @@ charlesFromJupiter.homePlanet = "Jupiter"
 ```
 
 What will the value of `charles.homePlanet` be after the above code run? What about the value of `charlesFromJupiter.homePlanet`? Why?
+
+Answer
+```
+Charles' homePlanet value would remain "Pluto", since it is a struct
+```
 
 
 ## Question 5
@@ -100,6 +129,11 @@ struct BankAccount {
 
 Does this code work? Why or why not?
 
+Answer
+```
+The fun should be a mutating func, to be able to alter the original var
+```
+
 Fix the `BankAccount` struct so it does work.
 
 Given the code below (which should incorporate any fixes you made):
@@ -112,6 +146,10 @@ joeAccount.withdraw(50.0)
 
 What will the value of `joeAccount.balance` be after the above code runs? What about the value of `joeOtherAccount.balance`? Why?
 
+Answer
+```
+joeAccount will have 50, and joeOtherAccount will have 100, because the struct will be copied with unique info stored within
+```
 
 ## Question 6
 
@@ -120,6 +158,25 @@ a. Write a struct called `Person` that has 3 properties of type `String`: a firs
 
 b. Write a method in `Person` called `fullName` that will return a formatted string of an instance's full name. Call this method on both the instances you created in part a.
 
+Answer
+```swift
+struct Person {
+    var firstName: String
+    var middleName : String?
+    var lastName: String
+    
+    func fullName() -> String {
+        return firstName + (middleName ?? "") + lastName
+    }
+}
+
+let person1 = Person(firstName: "John ", lastName: "Doe")
+let person2 = Person(firstName: "George ", middleName: "R.R. ", lastName: "Martin")
+print(person1.firstName)
+print(person2.firstName)
+print(person1.fullName())
+print(person2.fullName())
+```
 
 ## Question 7
 
@@ -128,13 +185,90 @@ a. Create a struct called `Book` that has properties `title`, `author` and `rati
 
 b. Add a method to `Book` called `isGood` that returns `true` if its rating is greater than or equal to 7
 
+Answer
+```swift
+struct Book {
+    var title : String
+    var author : String
+    var rating : Double
+    var qual = false
+    mutating func isGood() {
+        if rating > 7 {
+            qual = true
+        }
+    }
+}
+
+var lordOfTheRings = Book(title: "Lord of the Rings", author: "J.R.R. Tolkien", rating: 9)
+lordOfTheRings.isGood()
+print(lordOfTheRings.qual)
+```
 
 ## Question 8
 
 ```swift
 class Dog {
-
+    var name : String = "dog"
+    var breed : String = "unknowm"
+    var mood : String = "calm"
+    var hungry : Bool = false
+    
+    func playFetch() {
+        mood = "Playful"
+        hungry = true
+        print("Ruff!")
+    }
+    func feed() {
+        if hungry == true {
+            hungry = false
+            print("woof!")
+            print("The dog doesn't look hungry")
+        } else {
+            hungry = false
+            print("The dog is fed, and no longer hungry")
+        }
+    }
+    func toString() {
+        print("""
+            Name: \(name)
+            Breed: \(breed)
+            Mood: \(mood)
+            """)
+    }
+    func count() -> Int {
+        var dogCount = 0
+        for _ in Dog {
+        dogCount += 1
+        }
+    }
 }
+var dog1 = Dog()
+var dog2 = Dog()
+dog2.name = "Rhett"
+dog2.breed = "English Setter"
+dog2.mood = "Excited"
+dog2.hungry = false
+
+dog2.playFetch()
+print(dog2.mood, dog2.hungry)
+
+var dog3 = Dog()
+dog3.name = "Partner"
+dog3.breed = "Golden Retriever"
+dog3.mood = "thoughtful"
+dog3.hungry = true
+
+dog3.feed()
+
+var dog4 = Dog()
+dog4.name = "Rascal"
+dog4.breed = "Golden Retriever"
+dog4.mood = "feeling Pawesome!"
+dog4.hungry = true
+
+dog4.toString()
+
+Dog.count
 ```
 
 Work through the following tasks one by one, in order. Each time, add to the `Dog` class above. Each task has sample output that you should be able to replicate when you are done.
